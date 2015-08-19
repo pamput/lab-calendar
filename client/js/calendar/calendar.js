@@ -4,13 +4,14 @@
 
 var TmCalendar = (function (module) {
 
-        module.Calendar = function () {
+        module.Calendar = function (maxTime) {
+            maxTime = maxTime || 540;
             var self = this;
 
-            self.groups = [new module.Group()];
+            self.groups = [new module.Group(maxTime)];
 
             self.append = function (interval) {
-                if (!module.Tools.isValidInterval(interval)) {
+                if (!module.Tools.isValidInterval(interval, maxTime)) {
                     throw "Invalid Interval: " + JSON.stringify(interval);
                 }
 
@@ -27,7 +28,7 @@ var TmCalendar = (function (module) {
                 }
 
                 if (notInserted) {
-                    var g = new module.Group();
+                    var g = new module.Group(maxTime);
                     g.append(interval);
                     self.groups.push(g);
                 }
