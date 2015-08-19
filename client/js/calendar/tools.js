@@ -6,6 +6,12 @@ var TmCalendar = (function (module) {
 
         module.Tools = {
 
+            /**
+             * Checks if the interval is valid.
+             * @param interval interval the interval in the form {start: int, end: int}
+             * @param maxTime it's the max time in minutes the calendar have to accept (default: 540)
+             * @returns {boolean}
+             */
             isValidInterval: function (interval, maxTime) {
                 maxTime = maxTime || 540;
 
@@ -16,6 +22,10 @@ var TmCalendar = (function (module) {
                     interval.start < interval.end;
             },
 
+            /**
+             * Generets a random hash color.
+             * @returns {string}
+             */
             randomColor: function () {
                 var letters = '0123456789ABCDEF'.split('');
                 var color = '#';

@@ -2,6 +2,16 @@
  * Created by Łukasz Kwasek on 8/5/15.
  */
 
+/**
+ * Main background container:
+ *
+ *     <Event start={int} end={int} groupSize={int} column={int} />
+ *
+ *     @property start {int} beginning of the event
+ *     @property end {int} end of the event
+ *     @property groupSize {int} how many columns there are in the group which this event belongs to
+ *     @property column {int} index of the column in the group
+ */
 var Event = React.createClass({
     render: function () {
 

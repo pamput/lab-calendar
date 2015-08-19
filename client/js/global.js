@@ -2,6 +2,10 @@
  * Created by Łukasz Kwasek on 8/19/15.
  */
 
+/**
+ * Don't mind this file ;)
+ * It's just here to make "renderDay" function available and initialize the page with an example.
+ */
 function renderDay(events) {
     TmCalendar.render(events, $("#content")[0]);
 }
