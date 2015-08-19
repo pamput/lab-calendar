@@ -18,7 +18,7 @@ var Background = React.createClass({
 
         var cells = [];
 
-        for (var h = startHour; h <= startHour + hours; h++) {
+        for (var h = startHour; h < startHour + hours; h++) {
             var text = h + ":00";
             cells.push(
                 <BackgroundCell text={text}/>
