@@ -58,6 +58,20 @@ var TmCalendar = (function (module) {
                 }
             };
 
+            self.size = function () {
+                var size = 0;
+
+                for (var c in self.cols) {
+                    size += self.cols[c].size();
+                }
+
+                return size;
+            };
+
+            self.width = function () {
+                return self.cols ? self.cols.length : 0;
+            }
+
         };
 
         return module;
