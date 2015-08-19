@@ -4,7 +4,8 @@
 
 var TmCalendar = (function (module) {
 
-        module.Column = function () {
+        module.Column = function (maxTime) {
+            maxTime = maxTime || 540;
             var self = this;
 
             self.list = [];
@@ -23,14 +24,21 @@ var TmCalendar = (function (module) {
             };
 
             self.append = function (interval) {
-                if (module.Tools.isValidInterval(interval) &&
-                    (interval.start >= self.ending() || self.isEmpty())) {
+                if (!module.Tools.isValidInterval(interval, maxTime)) {
+                    throw "Invalid Interval: " + JSON.stringify(interval);
+                }
+
+                if (interval.start >= self.ending() || self.isEmpty()) {
                     self.list.push(interval);
-                    return self.ending();
+                    return true;
                 } else {
-                    return -1;
+                    return false;
                 }
             };
+
+            self.size = function () {
+                return self.list ? self.list.length : 0;
+            }
 
         };
 

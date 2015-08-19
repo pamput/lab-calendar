@@ -10,17 +10,22 @@ var Event = React.createClass({
         var groupSize = this.props.groupSize;
         var column = this.props.column;
 
-        var style = {
+        var styleFather = {
             "float": "left",
             "marginLeft": ((100 / groupSize) * column) + "%",
             "width": (100 / groupSize) + "%",
             "marginTop": start + "px",
-            "height": (stop - start) + "px",
+            "height": (stop - start) + "px"
+        };
+
+        var styleChild = {
             "backgroundColor": TmCalendar.Tools.randomColor()
         };
 
         return (
-            <div className="calendar-event" style={style}/>
+            <div className="calendar-event" style={styleFather}>
+                <div className="calendar-event-body" style={styleChild} />
+            </div>
         );
     }
 });

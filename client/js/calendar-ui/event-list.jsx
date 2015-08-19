@@ -16,7 +16,7 @@ var EventList = React.createClass({
         }
 
         return (
-            <div>
+            <div className="calendar-event-list">
                 {eventList}
             </div>
         );

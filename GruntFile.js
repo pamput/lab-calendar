@@ -5,6 +5,7 @@ module.exports = function (grunt) {
 
             clean: {
                 'default': ['dist/*', 'tmp'],
+                'bower': ['client/bower_components/*'],
                 'tmp': 'tmp'
             },
 
@@ -35,6 +36,10 @@ module.exports = function (grunt) {
                 }
             },
 
+            "bower-install-simple": {
+                dev: {}
+            },
+
             bower: {
                 dev: {
                     options: {
@@ -56,9 +61,10 @@ module.exports = function (grunt) {
                 'default': {
                     src: [
                         'client/js/calendar/*.{jsx,js}',
-                        'client/js/calendar.js',
+                        'client/js/calendar/calendar.js',
                         'client/js/calendar-ui/*.{jsx,js}',
-                        'client/js/calendar-ui.jsx'
+                        'client/js/tm-calendar.jsx',
+                        'client/js/global.js'
                     ],
                     dest: 'tmp/calendar.jsx.js'
                 }
@@ -145,6 +151,16 @@ module.exports = function (grunt) {
                         nospawn: true //Without this option specified express won't be reloaded
                     }
                 }
+            },
+
+            jasmine: {
+                calendar: {
+                    src: 'dist/static/js/**/*.js',
+                    options: {
+                        specs: 'test/spec/*.js',
+                        vendor: 'dist/static/lib/**/*.js'
+                    }
+                }
             }
         }
     );
@@ -156,14 +172,20 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks("grunt-bower-install-simple");
     grunt.loadNpmTasks('grunt-bower');
     grunt.loadNpmTasks('grunt-injector');
     grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-redis');
     grunt.loadNpmTasks('grunt-express-server');
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
 
-    grunt.registerTask('build', ['copy', 'less', 'bower', 'concat', 'babel:dist', 'uglify', 'injector', 'clean:tmp']);
-    grunt.registerTask('build:dev', ['copy', 'less', 'bower', 'concat', 'babel:dev', 'injector', 'clean:tmp']);
+    grunt.registerTask('build', ['copy', 'less', 'bower-install-simple', 'bower', 'concat', 'babel:dist', 'uglify', 'injector', 'clean:tmp']);
+    grunt.registerTask('build:dev', ['copy', 'less', 'bower-install-simple', 'bower', 'concat', 'babel:dev', 'injector', 'clean:tmp']);
+
+    grunt.registerTask('test', ['clean', 'clean:bower', 'build', 'jasmine']);
+    grunt.registerTask('test:dev', ['clean', 'build:dev', 'jasmine']);
+    grunt.registerTask('test:fast', ['build:dev', 'jasmine']);
 
     grunt.registerTask('serv', ['clean', 'build', 'express:prod', 'watch:prod']);
     grunt.registerTask('serv:dev', ['clean', 'build:dev', 'express:dev', 'watch:dev']);

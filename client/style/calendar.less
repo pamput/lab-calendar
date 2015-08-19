@@ -6,6 +6,41 @@ body {
   position: relative;
 }
 
+.calendar-event-list {
+  margin-left: 100px;
+  position: relative;
+}
+
 .calendar-event {
   position: absolute;
+  padding: 0
+}
+
+.calendar-event-body {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  opacity: 0.7;
+  padding: 0;
+}
+
+.background {
+  position: absolute;
+
+  z-index: -1000;
+  display: inline-block;
+
+  width: 100%;
+}
+
+.background-cell {
+  height: 60px;
+  padding-top: 0px;
+  padding-left: 40px;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: rgba(132, 216, 255, 0.34);
+}
+
+.background-cell:last-of-type {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }

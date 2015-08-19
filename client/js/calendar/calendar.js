@@ -15,23 +15,22 @@ var TmCalendar = (function (module) {
                     throw "Invalid Interval: " + JSON.stringify(interval);
                 }
 
-                var notInserted = true;
+                var inserted = false;
                 var i = 0;
-                while (i < self.groups.length && notInserted) {
-                    var res = self.groups[i].append(interval);
-
-                    if (res > -1) {
-                        notInserted = false;
-                    }
+                while (i < self.groups.length && !inserted) {
+                    inserted = self.groups[i].append(interval);
 
                     i++;
                 }
 
-                if (notInserted) {
+                if (!inserted) {
                     var g = new module.Group(maxTime);
-                    g.append(interval);
-                    self.groups.push(g);
+                    if (inserted = g.append(interval)) {
+                        self.groups.push(g);
+                    }
                 }
+
+                return inserted;
             };
 
             self.load = function (intervals) {
@@ -77,6 +76,25 @@ var TmCalendar = (function (module) {
                 }
 
                 return ret;
+            };
+
+            self.size = function () {
+                var size = 0;
+
+                for (var g in self.groups) {
+                    var group = self.groups[g];
+
+                    for (var c in group.cols) {
+                        var col = group.cols[c];
+                        var list = col.list;
+
+                        if (list != null && Array.isArray(list)) {
+                            size = size + list.length;
+                        }
+                    }
+                }
+
+                return size;
             };
 
         };

@@ -6,10 +6,13 @@ var TmCalendar = (function (module) {
 
         module.Tools = {
 
-            isValidInterval: function (interval) {
+            isValidInterval: function (interval, maxTime) {
+                maxTime = maxTime || 540;
+
                 return interval != null &&
-                    interval.start > 0 &&
+                    interval.start >= 0 &&
                     interval.end > 0 &&
+                    interval.end <= maxTime &&
                     interval.start < interval.end;
             },
 

@@ -4,10 +4,11 @@
 
 var TmCalendar = (function (module) {
 
-        module.Group = function () {
+        module.Group = function (maxTime) {
+            maxTime = maxTime || 540;
             var self = this;
 
-            self.cols = [new module.Column()];
+            self.cols = [new module.Column(maxTime)];
 
             self.ending = function () {
                 var ret = -1;
@@ -30,33 +31,30 @@ var TmCalendar = (function (module) {
             };
 
             self.append = function (interval) {
-                if (
-                    module.Tools.isValidInterval(interval) &&
-                    (interval.start < self.ending() || self.isEmpty())
-                ) {
+                if (!module.Tools.isValidInterval(interval, maxTime)) {
+                    throw "Invalid Interval: " + JSON.stringify(interval);
+                }
 
-                    var notInserted = true;
+                if (interval.start < self.ending() || self.isEmpty()) {
+
+                    var inserted = false;
                     var i = 0;
-                    while (i < self.cols.length && notInserted) {
-                        var res = self.cols[i].append(interval);
-
-                        if (res > -1) {
-                            notInserted = false;
-                        }
-
+                    while (i < self.cols.length && !inserted) {
+                        inserted = self.cols[i].append(interval);
                         i++;
                     }
 
-                    if (notInserted) {
-                        var c = new module.Column();
-                        c.append(interval);
-                        self.cols.push(c);
+                    if (!inserted) {
+                        var c = new module.Column(maxTime);
+                        if (inserted = c.append(interval)) {
+                            self.cols.push(c);
+                        }
                     }
 
-                    return self.ending();
+                    return inserted;
 
                 } else {
-                    return -1;
+                    return false;
                 }
             };
 
