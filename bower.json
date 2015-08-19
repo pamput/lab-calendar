@@ -1,0 +1,22 @@
+{
+  "name": "njs-contact-book",
+  "version": "0.0.0",
+  "homepage": "https://github.com/pamput/njs-contact-book",
+  "authors": [
+    "pamput <pamput@gmail.com>"
+  ],
+  "description": "NodeJS + AngularJS experiment",
+  "main": "dist/app.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.13.3",
+    "bootstrap": "~3.3.5"
+  }
+}
