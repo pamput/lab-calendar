@@ -46,8 +46,8 @@ describe("Group object suite case", function () {
         };
 
         var i2 = {
-            start: 90,
-            end: 110
+            start: 10,
+            end: 20
         };
 
         var i3 = {
@@ -55,13 +55,20 @@ describe("Group object suite case", function () {
             end: 121
         };
 
+        var i4 = {
+            start: 30,
+            end: 100
+        };
+
         expect(g.isEmpty()).toBeTruthy();
         expect(g.append(i1)).toBeTruthy();
         expect(g.append(i2)).toBeTruthy();
         expect(g.append(i3)).toBeTruthy();
+        expect(g.append(i4)).toBeTruthy();
         expect(g.ending()).toBe(121);
         expect(g.isEmpty()).toBeFalsy();
-        expect(g.size()).toBe(3);
+        expect(g.size()).toBe(4);
+        expect(g.width()).toBe(3);
     });
 
     it("multiple append with wrong intervals (wrong != invalid)", function () {

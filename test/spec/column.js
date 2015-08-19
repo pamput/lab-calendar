@@ -64,6 +64,34 @@ describe("Column object suite case", function () {
         expect(c.size()).toBe(3);
     });
 
+    it("multiple append with wrong interval (wrong != invalid)", function () {
+
+        var c = new TmCalendar.Column();
+
+        var i1 = {
+            start: 0,
+            end: 100
+        };
+
+        var i2 = {
+            start: 90,
+            end: 110
+        };
+
+        var i3 = {
+            start: 120,
+            end: 121
+        };
+
+        expect(c.isEmpty()).toBeTruthy();
+        expect(c.append(i1)).toBeTruthy();
+        expect(c.append(i2)).toBeFalsy();
+        expect(c.append(i3)).toBeTruthy();
+        expect(c.ending()).toBe(121);
+        expect(c.isEmpty()).toBeFalsy();
+        expect(c.size()).toBe(2);
+    });
+
     it("is validating the interval", function () {
 
         var c = new TmCalendar.Column();

@@ -97,6 +97,10 @@ var TmCalendar = (function (module) {
                 return size;
             };
 
+            self.isEmpty = function() {
+                return self.size() === 0;
+            };
+
         };
 
         return module;
