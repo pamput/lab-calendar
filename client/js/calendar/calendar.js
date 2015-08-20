@@ -30,14 +30,15 @@ var TmCalendar = (function (module) {
                     throw "Invalid Interval: " + JSON.stringify(interval);
                 }
 
+                // Try to append the event to any existing group
                 var inserted = false;
                 var i = 0;
                 while (i < self.groups.length && !inserted) {
                     inserted = self.groups[i].append(interval);
-
                     i++;
                 }
 
+                // If was not able to insert, create a new group
                 if (!inserted) {
                     var g = new module.Group(maxTime);
                     if (inserted = g.append(interval)) {
@@ -61,10 +62,13 @@ var TmCalendar = (function (module) {
                     throw "Intervals are not an array: " + JSON.stringify(intervals);
                 }
 
+                // Sort the array
+                // Components like Columns are useless otherwise
                 var sorted = intervals.sort(function (e1, e2) {
                     return e1.start - e2.start;
                 });
 
+                // Append every interval
                 for (var i in sorted) {
                     if (sorted.hasOwnProperty(i)) {
                         self.append(sorted[i]);
@@ -83,6 +87,7 @@ var TmCalendar = (function (module) {
             self.export = function () {
                 var ret = [];
 
+                // Get every interval...
                 for (var g in self.groups) {
                     var group = self.groups[g];
 
@@ -92,6 +97,7 @@ var TmCalendar = (function (module) {
                         for (var e in col.list) {
                             var event = col.list[e];
 
+                            // ... and push it out
                             ret.push({
                                 start: event.start,
                                 end: event.end,

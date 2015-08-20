@@ -66,6 +66,7 @@ var TmCalendar = (function (module) {
 
                 if (interval.start < self.ending() || self.isEmpty()) {
 
+                    // Try to append the event to any existing column
                     var inserted = false;
                     var i = 0;
                     while (i < self.cols.length && !inserted) {
@@ -73,6 +74,7 @@ var TmCalendar = (function (module) {
                         i++;
                     }
 
+                    // If was not able to insert, create a new column
                     if (!inserted) {
                         var c = new module.Column(maxTime);
                         if (inserted = c.append(interval)) {

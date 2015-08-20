@@ -33,6 +33,19 @@ var TmCalendar = (function (module) {
                     color += letters[Math.floor(Math.random() * 16)];
                 }
                 return color;
+            },
+
+            /**
+             * Generate a random light hash color
+             * @returns {string}
+             */
+            randomLightColor: function () {
+                var letters = '89ABCDEF'.split('');
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 8)];
+                }
+                return color;
             }
 
         };
