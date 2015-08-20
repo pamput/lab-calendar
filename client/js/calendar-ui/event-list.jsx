@@ -23,7 +23,7 @@ var EventList = React.createClass({
         if (this.props.events) {
             eventList = this.props.events.map(function (e) {
                 return (
-                    <Event start={e.start} end={e.end} groupSize={e.groupSize} column={e.column} startHour={startHour}/>
+                    <Event key={TmCalendar.Tools.uuid()} start={e.start} end={e.end} groupSize={e.groupSize} column={e.column} startHour={startHour}/>
                 );
             });
         }

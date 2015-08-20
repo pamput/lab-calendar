@@ -21,7 +21,7 @@ var Background = React.createClass({
         for (var h = startHour; h < startHour + hours; h++) {
             var text = h + ":00";
             cells.push(
-                <BackgroundCell text={text}/>
+                <BackgroundCell key={TmCalendar.Tools.uuid()} text={text}/>
             );
         }
 

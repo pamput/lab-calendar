@@ -43,7 +43,14 @@ module.exports = function (grunt) {
             bower: {
                 dev: {
                     options: {
-                        expand: true
+                        expand: true,
+                        packageSpecific: {
+                            'react': {
+                                files: [
+                                    'react-with-addons.js'
+                                ]
+                            }
+                        }
                     },
                     dest: 'dist/static/lib/',
                     js_dest: 'dist/static/lib/js/',
@@ -67,18 +74,28 @@ module.exports = function (grunt) {
                         'client/js/global.js'
                     ],
                     dest: 'tmp/calendar.jsx.js'
+                },
+
+                'test': {
+                    'src': 'test/spec/**/*.{jsx,js}',
+                    'dest': 'tmp/test.jsx.js'
                 }
             },
 
             babel: {
                 dist: {
                     files: {
-                        'tmp/calendar.jsx.js': 'tmp/calendar.jsx.js'
+                        'tmp/calendar.jsx.js': 'tmp/calendar.jsx.js',
                     }
                 },
                 dev: {
                     files: {
                         'dist/static/js/calendar.js': 'tmp/calendar.jsx.js'
+                    }
+                },
+                test: {
+                    files: {
+                        'tmp/test-babel.jsx.js': 'tmp/test.jsx.js'
                     }
                 }
             },
@@ -150,6 +167,16 @@ module.exports = function (grunt) {
                         livereload: true,
                         nospawn: true //Without this option specified express won't be reloaded
                     }
+                },
+                dev2: {
+                    files: [
+                        '{client,server}/**/*.{js,json,jsx,less,html}'
+                    ],
+                    tasks: ['build:dev2', 'express:dev'],
+                    options: {
+                        livereload: true,
+                        nospawn: true //Without this option specified express won't be reloaded
+                    }
                 }
             },
 
@@ -157,8 +184,9 @@ module.exports = function (grunt) {
                 calendar: {
                     src: 'dist/static/js/**/*.js',
                     options: {
-                        specs: 'test/spec/*.js',
-                        vendor: 'dist/static/lib/**/*.js'
+                        specs: 'tmp/test-babel.jsx.js',
+                        vendor: 'dist/static/lib/**/*.js',
+                        helper: 'node_modules/jasmine-react/lib/jasmine_react.js'
                     }
                 }
             }
@@ -172,6 +200,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks("grunt-bower-install-simple");
     grunt.loadNpmTasks('grunt-bower');
     grunt.loadNpmTasks('grunt-injector');
@@ -180,12 +209,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
 
-    grunt.registerTask('build', ['copy', 'less', 'bower-install-simple', 'bower', 'concat', 'babel:dist', 'uglify', 'injector', 'clean:tmp']);
+    grunt.registerTask('build', ['copy', 'less', 'bower-install-simple', 'bower', 'concat', 'concat:test', 'babel:dist', 'bable:test', 'uglify', 'injector', 'clean:tmp']);
     grunt.registerTask('build:dev', ['copy', 'less', 'bower-install-simple', 'bower', 'concat', 'babel:dev', 'injector', 'clean:tmp']);
+    grunt.registerTask('build:test', ['build:dev', 'concat:test', 'babel:test']);
 
     grunt.registerTask('test', ['clean', 'clean:bower', 'build', 'jasmine']);
-    grunt.registerTask('test:dev', ['clean', 'build:dev', 'jasmine']);
-    grunt.registerTask('test:fast', ['build:dev', 'jasmine']);
+    grunt.registerTask('test:dev', ['clean', 'build:test', 'jasmine']);
+    grunt.registerTask('test:fast', ['build:test', 'jasmine']);
 
     grunt.registerTask('serv', ['clean', 'build', 'express:prod', 'watch:prod']);
     grunt.registerTask('serv:dev', ['clean', 'build:dev', 'express:dev', 'watch:dev']);
